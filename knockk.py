@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import socket
 import sys
-import re
 
 def knockTCP(ip, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -35,6 +34,24 @@ def main():
             print("Port argument \"{0}\" is invalid".format(sys.argv[i]))
             usage()
             return 1
+
+    validoctets = 0
+    if len(IP.split('.')) == 4:
+        for octet in IP.split('.'):
+            try:
+                if int(octet) < 256 and int(octet) >= 0:
+                    validoctets += 1
+            except: pass
+    else:
+        print("Invalid IP address given: {0}".format(IP))
+        usage()
+        return 1
+
+    if validoctets != 4:
+        print("Invalid IP address given: {0}".format(IP))
+        usage()
+        return 1
+
 
     if PROTO.upper() == 'TCP':
         for port in PORTS:
