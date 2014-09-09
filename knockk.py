@@ -5,6 +5,7 @@ import re
 
 def knockTCP(ip, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1)
     try:
         s.connect((ip, port))
         s.send("hello")
